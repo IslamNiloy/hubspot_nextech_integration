@@ -1,0 +1,26 @@
+{
+  "name": "hubspot_nextech_integration",
+  "version": "1.0.0",
+  "description": "Nextech Healthcare Management System – a seamless, real-time, two-way integration between Nextech and HubSpot. Effortlessly synchronize data for enhanced efficiency and streamlined operations.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IslamNiloy/hubspot_nextech_integration.git"
+  },
+  "author": "Hubxpert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IslamNiloy/hubspot_nextech_integration/issues"
+  },
+  "homepage": "https://github.com/IslamNiloy/hubspot_nextech_integration#readme",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
