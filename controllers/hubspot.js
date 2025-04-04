@@ -2,7 +2,7 @@
 // Check Repeated Trigger
 async function checkHubSpotUpdate(contactId) {
     try {
-        const accessToken = "pat-na1-58004326-d1ad-4e6d-8fed-e10f8aa770c5"; // Replace with your actual HubSpot access token
+        const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 
         // Fetch contact data from HubSpot
         const response = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contactId}?propertiesWithHistory=lastmodifieddate`, {
