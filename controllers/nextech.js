@@ -240,7 +240,7 @@ exports.createNextechPatient= async function(inputData) {
             throw new Error(`Nextech API error: ${JSON.stringify(data)}`);
         }
 
-        return { success: true, message: "Successfully created patient in Nextech" };
+        return { success: true, message: "Successfully created patient in Nextech", data: data };
     } catch (error) {
         console.error("❌ Error creating patient in Nextech:", error.message);
         return { success: false, message: "Failed to create patient in Nextech", error: error };
@@ -325,7 +325,7 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
                 },
                 {
                      use: "usual",
-                     value : inputData.patient_id
+                     value : updateData.patient_id
                 }
             ],
 
@@ -352,49 +352,49 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
 
             // **Extensions (Allowed Fields)**
             extension: [
-                inputData.referral_source && {
+                updateData.referral_source && {
                     url: "https://select.nextech-api.com/api/structuredefinition/referral-source",
-                    valueReference: { reference: inputData.referral_source }
+                    valueReference: { reference: updateData.referral_source }
                 },
-                inputData.referring_physician && {
+                updateData.referring_physician && {
                     url: "https://select.nextech-api.com/api/structuredefinition/referring-physician",
-                    valueReference: { reference: inputData.referring_physician }
+                    valueReference: { reference: updateData.referring_physician }
                 },
-                inputData.primary_care_physician && {
+                updateData.primary_care_physician && {
                     url: "https://select.nextech-api.com/api/structuredefinition/primary-care-physician",
-                    valueReference: { reference: inputData.primary_care_physician }
+                    valueReference: { reference: updateData.primary_care_physician }
                 },
-                inputData.referring_patient && {
+                updateData.referring_patient && {
                     url: "https://select.nextech-api.com/api/structuredefinition/referring-patient",
-                    valueReference: { reference: `patient/${inputData.referring_patient}` }
+                    valueReference: { reference: `patient/${updateData.referring_patient}` }
                 },
-                // inputData.affiliate_physician && {
+                // updateData.affiliate_physician && {
                 //     url: "https://select.nextech-api.com/api/structuredefinition/affiliate-physician",
-                //     valueReference: { reference: `affiliate-physician/${inputData.affiliate_physician}` }
+                //     valueReference: { reference: `affiliate-physician/${updateData.affiliate_physician}` }
                 // },
-                inputData.affiliate_physician_type && {
+                updateData.affiliate_physician_type && {
                     url: "https://select.nextech-api.com/api/structuredefinition/affiliate-physician-type",
-                    valueString: inputData.affiliate_physician_type
+                    valueString: updateData.affiliate_physician_type
                 },
-                inputData.patient_employment_status && {
+                updateData.patient_employment_status && {
                     url: "https://select.nextech-api.com/api/structuredefinition/patient-employment-status",
-                    valueString: inputData.patient_employment_status
+                    valueString: updateData.patient_employment_status
                 },
-                inputData.nextech_patient_type && {
+                updateData.nextech_patient_type && {
                     url: "https://select.nextech-api.com/api/structuredefinition/patient-type",
-                    valueReference: { reference: inputData.nextech_patient_type }
+                    valueReference: { reference: updateData.nextech_patient_type }
                 },
-                inputData.patient_status && {
+                updateData.patient_status && {
                     url: "https://select.nextech-api.com/api/structuredefinition/patient-status",
-                    valueString: inputData.patient_status
+                    valueString: updateData.patient_status
                 },
                 {
                     url: "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
-                    valueBoolean: inputData.exclude_from_mailings === "true"
+                    valueBoolean: updateData.exclude_from_mailings === "true"
                 },
-                inputData.patient_note && {
+                updateData.patient_note && {
                     url: "https://select.nextech-api.com/api/structuredefinition/patient-note",
-                    valueString: inputData.patient_note
+                    valueString: updateData.patient_note
                 }
             
             ].filter(Boolean),
@@ -462,3 +462,175 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
 
 // exports.createNextechPatient = createNextechPatient;
 // return updateNextechPatient(inputData.patient_official_id, inputData);
+
+// Function to format patient data
+function formatPatientData(patient) {
+    const fullName = patient.name?.find(n => n.use === "official")?.text || "";
+    const nameParts = fullName.split(" ").filter(Boolean);
+    const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last part is last name
+    const firstName = nameParts.join(" ");
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+        return emailRegex.test(email);
+    }
+
+    // Map allowed patient statuses to HubSpot options
+    const allowedStatuses = {
+        "Patient": "patient",
+        "Prospect": "prospect",
+        "Patient Prospect": "patientprospect"
+    };
+
+    const allowedMaritalStatuses = {
+        "Married": "M",
+        "Unmarried": "U",
+        "Never Married": "S"
+    };
+
+    const allowedAffiliatePhysicianTypes = {
+        "Preop": "preop",
+        "Postop": "postop",
+        "Pre And Postop": "preandpostop"
+    }
+
+    const allowedPatientEmploymentStatuses = {
+        "Full Time": "full time",
+        "Part Time": "part time",
+        "Retired": "retired",
+        "Full Time Student": "full time student",
+        "Part Time Student": "part time student",
+        "Other": "other"
+    }
+        
+    return {
+        patient_official_id: patient.id,
+        // lastUpdated: patient.meta?.lastUpdated || null,
+        
+        // Patient Status
+        patient_status: allowedStatuses[patient.extension?.find(ext => ext.url.includes("patient-status"))?.valueString] || "patient",
+        // exclude_from_mailings: patient.extension?.find(ext => ext.url.includes("exclude-from-mailings"))?.valueBoolean || false,
+        exclude_from_mailings: patient.extension?.find(ext => ext.url.includes("exclude-from-mailings"))?.valueBoolean ? "true" : "false",
+        prospects_referred: patient.extension?.find(ext => ext.url.includes("prospects-referred"))?.valueInteger || 0,
+        patients_referred: patient.extension?.find(ext => ext.url.includes("patients-referred"))?.valueInteger || 0,
+        referral_source: patient.extension?.find(ext => ext.url.includes("referral-source"))?.valueReference?.reference || "",
+        referring_physician: patient.extension?.find(ext => ext.url.includes("referring-physician"))?.valueReference?.reference || "",
+        primary_care_physician: patient.extension?.find(ext => ext.url.includes("primary-care-physician"))?.valueReference?.reference || "",
+        referring_patient: patient.extension?.find(ext => ext.url.includes("referring-patient"))?.valueReference?.reference || "",
+        affiliate_physician: patient.extension?.find(ext => ext.url.includes("affiliate-physician"))?.valueReference?.display || "",
+        affiliate_physician_type: allowedAffiliatePhysicianTypes[patient.extension?.find(ext => ext.url.includes("affiliate-physician-type"))?.valueString]|| "",
+        patient_employment_status: allowedPatientEmploymentStatuses[patient.extension?.find(ext => ext.url.includes("patient-employment-status"))?.valueString] || "",
+        nextech_patient_type: patient.extension?.find(ext => ext.url.includes("patient-type"))?.valueReference?.reference || "",
+        patient_note: patient.extension?.find(ext => ext.url.includes("patient-note"))?.valueString || "",
+        // patientLocation: patient.extension?.find(ext => ext.url.includes("patient-location"))?.valueReference?.display || " ",
+        
+        // Ethnicity & Race
+        ethnicity: patient.extension?.find(ext => ext.url.includes("Ethnicity"))?.valueCodeableConcept?.text || "",
+        // race: patient.extension?.find(ext => ext.url.includes("Race"))?.valueCodeableConcept?.text || " ",
+
+        // Identifiers
+        // patient_official_id: patient.identifier?.find(id => id.use === "official")?.value || " ",
+        patient_id: patient.identifier?.find(id => id.use === "usual")?.value || "",
+        // identifierSSN: patient.identifier?.find(id => id.system === "http://hl7.org/fhir/sid/us-ssn")?.value || " ",
+
+        // Names
+        firstname: firstName,
+        lastname: lastName,
+        // nickname: patient.name?.find(n => n.use === "nickname")?.text || " ",
+        patient_gender: patient.gender || "",
+        dob: patient.birthDate || "",
+        patient_marital_status: allowedMaritalStatuses[patient.maritalStatus?.text] || "",
+        nextech_preferred_contact: (() => {
+            const preferred = patient.telecom?.find(t => t.rank === 1);
+            if (preferred) {
+                if (preferred.system === "phone") {
+                    return preferred.use === "home" ? "home"
+                        : preferred.use === "mobile" ? "mobile"
+                        : preferred.use === "work" ? "work"
+                        : "phone"; // Default to "phone" if use is missing
+                }
+                return preferred.system; // Return email, sms, etc.
+            }
+            return "";
+        })(),
+
+        // privacySettings: patient.telecom?.some(t => t.extension?.find(ext => ext.url.includes("method-privacy"))?.valueBoolean) || false,
+
+        // Contact Information
+        phone: patient.telecom?.find(t => t.system === "phone" && t.use === "home")?.value || "",
+        // workPhone: patient.telecom?.find(t => t.system === "phone" && t.use === "work")?.value || " ",
+        mobilephone: patient.telecom?.find(t => t.system === "phone" && t.use === "mobile")?.value || "",
+        // otherPhone: patient.telecom?.find(t => t.system === "other")?.value || " ",
+        fax: patient.telecom?.find(t => t.system === "fax")?.value || "",
+        email: isValidEmail(patient.telecom?.find(t => t.system === "email")?.value) 
+        ? patient.telecom?.find(t => t.system === "email")?.value 
+        : null,
+        // Address
+        // addressType: patient.address?.[0]?.type || " ",
+        // addressUse: patient.address?.[0]?.use || " ",
+        address: patient.address?.[0]?.line?.join(", ") || "",
+        city: patient.address?.[0]?.city || "",
+        state: patient.address?.[0]?.state || "",
+        zip: patient.address?.[0]?.postalCode || "",
+        country: patient.address?.[0]?.country || "",
+
+        // Emergency Contact
+        emergency_contact_name: patient.contact?.[0]?.name?.text || "",
+        emergency_contact_relation: patient.contact?.[0]?.extension?.find(ext => ext.url.includes("emergency-contact-relation"))?.valueString || "",
+        emergency_contact_home_phone: patient.contact?.[0]?.telecom?.find(t => t.system === "phone" && t.use === "home")?.value || "",
+        // emergencyContactWorkPhone: patient.contact?.[0]?.telecom?.find(t => t.system === "phone" && t.use === "work")?.value || " ",
+        // emergencyContactMobilePhone: patient.contact?.[0]?.telecom?.find(t => t.system === "phone" && t.use === "mobile")?.value || " ",
+        emergency_contact_email: patient.contact?.[0]?.telecom?.find(t => t.system === "email")?.value || "",
+
+        // Occupation Details
+        jobtitle: patient.contact?.[0]?.extension?.find(ext => ext.url.includes("patient-occupation"))?.valueString || "",
+        company: patient.contact?.[0]?.extension?.find(ext => ext.url.includes("patient-company"))?.valueString || "",
+        // patientOccupationCode: patient.contact?.[0]?.extension?.find(ext => ext.url.includes("patient-occupation-code"))?.valueString || " ",
+        // patientIndustryCode: patient.contact?.[0]?.extension?.find(ext => ext.url.includes("patient-industry-code"))?.valueString || " ",
+        
+
+        general_practitioner: patient.generalPractitioner?.[0]?.reference || "",
+        patient_communication: patient.communication?.[0]?.language?.text || "",
+    };
+}
+
+// **Main function for Zapier**
+exports.fetchSinglePatient=async function (inputData) {
+    if (!inputData.email) {
+        throw new Error("Missing required field: email.");
+    }
+
+    const token = await getNextechToken();
+    const patientUrl = `https://select.nextech-api.com/api/Patient?email=${inputData.email}`;
+
+    try {
+        const response = await fetch(patientUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "nx-practice-id": "2441c8d4-dbf0-4517-a5e5-fe84c0ff4c50"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching patient: ${await response.text()}`);
+        }
+
+        const patientData = await response.json();
+        const formattedPatient = formatPatientData(patientData.entry[0].resource);
+
+        console.log("✅ Successfully fetched patient:", formattedPatient);
+
+        return {
+            success: true,
+            message: "Patient fetched successfully",
+            patient: formattedPatient
+        };
+    } catch (error) {
+        console.error("❌ Error fetching patient:", error);
+        return {
+            success: false,
+            message: "Failed to fetch patient",
+            error: error.message
+        };
+    }
+}
+

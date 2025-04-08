@@ -1,6 +1,8 @@
 
 // Check Repeated Trigger
 require('dotenv').config();
+const hubspot = require('@hubspot/api-client');
+
 exports.checkHubSpotUpdate= async function(contactId) {
     try {
         const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
@@ -122,8 +124,28 @@ exports.getContactInformation = async function (contactId) {
 
 
 
-// ✅ Required for Zapier
-// return  await checkHubSpotUpdate(inputData.contactId);
+exports.updateHubSpotContact = async function (contactId, properties) {
+    const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
+
+    // Prepare the data to update
+    const SimplePublicObjectInput = { properties };
+
+    // Update contact in HubSpot
+    const response = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(SimplePublicObjectInput)
+    });
+
+    if (!response.ok) {
+        throw new Error(`HubSpot API error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+}
 
 
 
