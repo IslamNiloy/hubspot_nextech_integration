@@ -1,4 +1,5 @@
-async function getNextechToken() {
+require("dotenv").config();
+exports.getNextechToken= async function() {
     const bodyData = new URLSearchParams();
     bodyData.append("grant_type", "password");
     bodyData.append("client_id", process.env.NEXTECH_CLIENT_ID);

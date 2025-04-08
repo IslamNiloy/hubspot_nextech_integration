@@ -1,6 +1,7 @@
+require('dotenv').config();
 // Create Patient in Nextech
-
-async function createNextechPatient(inputData) {
+const { getNextechToken } = require("./token");
+exports.createNextechPatient= async function(inputData) {
     try {
         // Fetch Nextech token
         console.log(inputData)
@@ -239,8 +240,7 @@ async function createNextechPatient(inputData) {
             throw new Error(`Nextech API error: ${JSON.stringify(data)}`);
         }
 
-        console.log("✅ Successfully created patient in Nextech:", JSON.stringify(data, null, 2));
-        return { success: true, message: "Successfully created patient in Nextech", data };
+        return { success: true, message: "Successfully created patient in Nextech" };
     } catch (error) {
         console.error("❌ Error creating patient in Nextech:", error.message);
         return { success: false, message: "Failed to create patient in Nextech", error: error };
@@ -251,14 +251,15 @@ async function createNextechPatient(inputData) {
 
 
 // Update Nextech Patient
-async function updateNextechPatient(patientOfficialId, updateData) {
+exports.updateNextechPatient= async function (patientOfficialId, updateData) {
     try {
         // Fetch Nextech token
         console.log(updateData);
+        console.log(patientOfficialId);
         const token = await getNextechToken();
 
         // Ensure patient ID is provided
-       if (!patientOfficialId && !inputData.patient_id) {
+       if (!patientOfficialId && !updateData.patient_id) {
                 throw new Error("Missing required fields: patientOfficialId and inputData.patient_id.");
             }
 
@@ -434,7 +435,7 @@ async function updateNextechPatient(patientOfficialId, updateData) {
             ].filter(Boolean)
         };
 
-        console.log("🚀 Updating Nextech Patient Data:", JSON.stringify(patientUpdateData, null, 2));
+        // console.log("🚀 Updating Nextech Patient Data:", JSON.stringify(patientUpdateData, null, 2));
 
         // **Try sending as a POST request instead of PUT**
         const response = await fetch("https://select.nextech-api.com/api/Patient", {
@@ -451,13 +452,13 @@ async function updateNextechPatient(patientOfficialId, updateData) {
         if (!response.ok) {
             throw new Error(`Nextech API error: ${JSON.stringify(data)}`);
         }
-
-        console.log("✅ Successfully updated patient in Nextech:", JSON.stringify(data, null, 2));
-        return { success: true, message: "Successfully updated patient in Nextech", data };
+        console.log("successfully updated patient in Nextech");
+        return { success: true, message: "Successfully updated patient in Nextech"};
     } catch (error) {
         console.error("❌ Error updating patient in Nextech:", error.message);
         return { success: false, message: "Failed to update patient in Nextech", error: error };
     }
 }
 
+// exports.createNextechPatient = createNextechPatient;
 // return updateNextechPatient(inputData.patient_official_id, inputData);

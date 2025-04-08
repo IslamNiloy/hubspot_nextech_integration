@@ -1,6 +1,7 @@
 
 // Check Repeated Trigger
-async function checkHubSpotUpdate(contactId) {
+require('dotenv').config();
+exports.checkHubSpotUpdate= async function(contactId) {
     try {
         const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 
@@ -48,6 +49,78 @@ async function checkHubSpotUpdate(contactId) {
         return { output: false }; // Ensuring Zapier always gets a response
     }
 }
+
+exports.getContactInformation = async function (contactId) {
+    const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
+
+    // List of properties you want to retrieve
+    const propertiesToFetch = [
+        "patient_official_id",
+        "patient_status",
+        "exclude_from_mailings",
+        "prospects_referred",
+        "patients_referred",
+        "referral_source",
+        "referring_physician",
+        "primary_care_physician",
+        "referring_patient",
+        "affiliate_physician",
+        "affiliate_physician_type",
+        "patient_employment_status",
+        "nextech_patient_type",
+        "patient_note",
+        "ethnicity",
+        "patient_id",
+        "firstname",
+        "lastname",
+        "patient_gender",
+        "dob",
+        "patient_marital_status",
+        "nextech_preferred_contact",
+        "phone",
+        "mobilephone",
+        "fax",
+        "email",
+        "address",
+        "city",
+        "state",
+        "zip",
+        "country",
+        "emergency_contact_name",
+        "emergency_contact_relation",
+        "emergency_contact_home_phone",
+        "emergency_contact_email",
+        "jobtitle",
+        "company",
+        "general_practitioner",
+        "patient_communication"
+    ];
+
+    // Fetch contact data from HubSpot
+    const response = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contactId}?properties=${propertiesToFetch.join(',')}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`HubSpot API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Extract the properties from the returned data
+    const contactProperties = propertiesToFetch.reduce((result, property) => {
+        result[property] = data.properties[property] || "";
+        return result;
+    }, {});
+
+    return contactProperties;
+};
+
+
 
 // ✅ Required for Zapier
 // return  await checkHubSpotUpdate(inputData.contactId);

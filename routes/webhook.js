@@ -1,6 +1,10 @@
+
+
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
+const { handleContactUpdate } = require('../controllers/hubspot');
+const { createNextechPatient, updateNextechPatient } = require('../controllers/nextech');
+const {getContactInformation} = require('../controllers/hubspot');
 
 // Define the webhook handler
 router.post('/', async (req, res) => {
@@ -10,21 +14,35 @@ router.post('/', async (req, res) => {
 
     // Check the event type and route accordingly
     try {
-        if (payload.subscriptionType === 'contact.propertyChange') {
-            
-            await handleContactUpdate(payload);
-            res.status(200).json({ message: 'Contact update handled successfully' });
-        } else if (payload.subscriptionType === 'object.creation') {
-            
-            await createContact(payload);
-            res.status(200).json({ message: 'Meeting update handled successfully' });
+        let message;
+        if (payload.subscriptionType === 'contact.propertyChange'&& !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
+            inputData = await getContactInformation(payload.objectId);
+            console.log(inputData)
+            if (inputData.patient_id){
+                const updateData= {
+                    [payload.propertyName]: payload.propertyValue,
+                }
+                message = await updateNextechPatient(inputData.patient_official_id, updateData);
+            }else{
+                message = await createNextechPatient(inputData);
+            }
+            res.status(200).json({ message: message });
+
+        } else if (payload.subscriptionType === 'object.creation' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
+            inputData = await getContactInformation(payload.objectId);
+            if (inputData.patient_id){
+                await updateNextechPatient(inputData.patient_offical_id, inputData);
+            }else{
+                await createNextechPatient(inputData);
+            }
+            res.status(200).json({ message: 'Contact create successfully' });
         }else if (payload.subscriptionType === 'meeting.propertyChange') {
             
             await handleMeetingUpdate(payload);
             res.status(200).json({ message: 'Meeting update handled successfully' });
         }
          else {
-            res.status(400).json({ message: 'Unknown event type' });
+            res.status(200).json({ message: `Event type not match => SourceId:` + payload.sourceId +  ` SubscriptionType:` + payload.subscriptionType });
         }
     } catch (error) {
         console.error('Error processing the event:', error);
@@ -32,48 +50,5 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Function to handle contact updates
-async function handleContactUpdate(payload) {
-    const contactId = payload.objectId;
-    const propertyName = payload.propertyName;
-    const propertyValue = payload.propertyValue;
-
-    // Process the contact update based on the payload data (send to Nextech or HubSpot)
-    try {
-        const contactData = {
-            contactId,
-            propertyName,
-            propertyValue,
-        };
-
-        // Example: Send data to Nextech (implement your own logic here)
-        await axios.post('http://your-nextech-api.com/updateContact', contactData);
-    } catch (error) {
-        console.error('Error sending contact update to Nextech:', error);
-        throw error;
-    }
-}
-
-// Function to handle meeting updates
-async function handleMeetingUpdate(payload) {
-    const meetingId = payload.objectId;
-    const propertyName = payload.propertyName;
-    const propertyValue = payload.propertyValue;
-
-    // Process the meeting update based on the payload data (send to Nextech or HubSpot)
-    try {
-        const meetingData = {
-            meetingId,
-            propertyName,
-            propertyValue,
-        };
-
-        // Example: Send data to HubSpot or Nextech (implement your own logic here)
-        await axios.post('http://your-hubspot-api.com/updateMeeting', meetingData);
-    } catch (error) {
-        console.error('Error sending meeting update to HubSpot:', error);
-        throw error;
-    }
-}
 
 module.exports = router;
