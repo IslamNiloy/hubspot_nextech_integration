@@ -1,7 +1,8 @@
 
 // Check Repeated Trigger
 require('dotenv').config();
-const hubspot = require('@hubspot/api-client');
+
+const {logData} = require('../controllers/utils');
 
 exports.checkHubSpotUpdate= async function(contactId) {
     try {
@@ -53,6 +54,7 @@ exports.checkHubSpotUpdate= async function(contactId) {
 }
 
 exports.getContactInformation = async function (contactId) {
+    logData.getContactInformation_function_start = true;
     const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 
     // List of properties you want to retrieve
@@ -109,6 +111,7 @@ exports.getContactInformation = async function (contactId) {
 
     if (!response.ok) {
         throw new Error(`HubSpot API error: ${response.status} ${response.statusText}`);
+        logData.getContactInformation_function_error = response.statusText;
     }
 
     const data = await response.json();
@@ -125,6 +128,7 @@ exports.getContactInformation = async function (contactId) {
 
 
 exports.updateHubSpotContact = async function (contactId, properties) {
+    logData.updateHubSpotContact_function_start = true;
     const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 
     // Prepare the data to update
@@ -142,6 +146,7 @@ exports.updateHubSpotContact = async function (contactId, properties) {
 
     if (!response.ok) {
         throw new Error(`HubSpot API error: ${response.status} ${response.statusText}`);
+        logData.updateHubSpotContact_function_error = response.statusText;
     }
 
     return await response.json();

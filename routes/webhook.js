@@ -3,20 +3,24 @@ const router = express.Router();
 const { updateHubSpotContact } = require('../controllers/hubspot');
 const { createNextechPatient, updateNextechPatient, fetchSinglePatient } = require('../controllers/nextech');
 const {getContactInformation} = require('../controllers/hubspot');
+const {logToFile,logData} = require('../controllers/utils');
 
 // Define the webhook handler
 router.post('/', async (req, res) => {
     const payload = req.body;
 
-    console.log('Received Payload:', JSON.stringify(payload, null, 2));
+    const startTime = new Date().toISOString();  // Capture the start time
+    logData.start_time= startTime,
+
+    logData.received_payload = payload; 
 
     try {
-        let message;
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information
             const inputData = await getContactInformation(payload.objectId);
-            console.log(inputData);
-
+            // console.log(inputData);
+            logData.input_data = inputData; // Log the input data
+            
             // The condition logic for contact.propertyChange
             if (
                 !inputData.firstname.includes("Name") &&          // First Name does not contain "Name"
@@ -40,8 +44,10 @@ router.post('/', async (req, res) => {
                     }
                 } else {
                     const {success,message,data} = await createNextechPatient(inputData);
-                    console.log(success)
-                    console.log(message)
+                    
+                    logData.create_nextech_patient_success = success; 
+                    logData.create_nextech_patient_message = message;
+
                     if (!success) {
                         const {patient} = await fetchSinglePatient(inputData);
                         await updateNextechPatient(patient.patient_official_id, inputData);
@@ -70,8 +76,8 @@ router.post('/', async (req, res) => {
         } else if (payload.subscriptionType === 'object.creation' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information for object creation
             const inputData = await getContactInformation(payload.objectId);
-            console.log(inputData);
-
+            logData.input_data = inputData; // Log the input data
+            
             // The condition logic for object.creation
             if (
                 !inputData.firstname.includes("Name") &&          // First Name does not contain "Name"
@@ -122,10 +128,16 @@ router.post('/', async (req, res) => {
         } else {
             res.status(200).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
         }
+
+    
     } catch (error) {
-        console.error('Error processing the event:', error);
+        // console.error('Error processing the event:', error);
+        logData.error = error.message; // Log the error message
         res.status(500).json({ message: 'Internal server error' });
     }
+    const endTime = new Date().toISOString();  // Capture the end time
+    logData.end_time = endTime;
+    logToFile(logData);
 });
 
 

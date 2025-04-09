@@ -1,10 +1,15 @@
 require('dotenv').config();
 // Create Patient in Nextech
 const { getNextechToken } = require("./token");
+const {logData} = require("./utils");
+
+
 exports.createNextechPatient= async function(inputData) {
     try {
         // Fetch Nextech token
-        console.log(inputData)
+        logData.createNextechPatient_function_start = true;
+        logData.creating_nextech_patient_input_data = inputData;
+        // console.log(inputData)
         const token = await getNextechToken();
 
         // Validate required fields
@@ -222,7 +227,8 @@ exports.createNextechPatient= async function(inputData) {
             // }] : [],
         };
 
-        console.log("🚀 Nextech Patient Data:", JSON.stringify(patientData, null, 2));
+        // console.log("🚀 Nextech Patient Data:", JSON.stringify(patientData, null, 2));
+        logData.creating_nextech_patient_formated_data = patientData;
 
         // **Send request to Nextech**
         const response = await fetch("https://select.nextech-api.com/api/Patient", {
@@ -242,7 +248,10 @@ exports.createNextechPatient= async function(inputData) {
 
         return { success: true, message: "Successfully created patient in Nextech", data: data };
     } catch (error) {
-        console.error("❌ Error creating patient in Nextech:", error.message);
+        // console.error("❌ Error creating patient in Nextech:", error.message);
+        logData.successfully_created_patient_in_nextech = false;
+        logData.creating_nextech_patient_response = error.message;
+        
         return { success: false, message: "Failed to create patient in Nextech", error: error };
     }
 }
@@ -250,12 +259,14 @@ exports.createNextechPatient= async function(inputData) {
 
 
 
+
 // Update Nextech Patient
 exports.updateNextechPatient= async function (patientOfficialId, updateData) {
     try {
-        // Fetch Nextech token
-        console.log(updateData);
-        console.log(patientOfficialId);
+        logData.updateNextechPatient_function_start =true
+        logData.updating_nextech_patient_official_id = patientOfficialId;
+        logData.updating_nextech_patient_data = updateData;
+        
         const token = await getNextechToken();
 
         // Ensure patient ID is provided
@@ -452,16 +463,22 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
         if (!response.ok) {
             throw new Error(`Nextech API error: ${JSON.stringify(data)}`);
         }
-        console.log("successfully updated patient in Nextech");
+        logData.nextech_patient_update_response = data;
+        logData.successfully_updated_patient_in_nextech = true;
+     
+        // console.log("successfully updated patient in Nextech");
         return { success: true, message: "Successfully updated patient in Nextech"};
     } catch (error) {
-        console.error("❌ Error updating patient in Nextech:", error.message);
+        // console.error("❌ Error updating patient in Nextech:", error.message);
+      
+        logData.successfully_updated_patient_in_nextech = false;
+        logData.nextech_patient_update_response = error.message;
         return { success: false, message: "Failed to update patient in Nextech", error: error };
     }
 }
 
-// exports.createNextechPatient = createNextechPatient;
-// return updateNextechPatient(inputData.patient_official_id, inputData);
+
+
 
 // Function to format patient data
 function formatPatientData(patient) {
@@ -593,8 +610,10 @@ function formatPatientData(patient) {
     };
 }
 
+
 // **Main function for Zapier**
 exports.fetchSinglePatient=async function (inputData) {
+    logData.fetchSinglePatient_function_start = true;
     if (!inputData.email) {
         throw new Error("Missing required field: email.");
     }
@@ -617,7 +636,8 @@ exports.fetchSinglePatient=async function (inputData) {
         const patientData = await response.json();
         const formattedPatient = formatPatientData(patientData.entry[0].resource);
 
-        console.log("✅ Successfully fetched patient:", formattedPatient);
+        // console.log("✅ Successfully fetched patient:", formattedPatient);
+        logData.successfully_fetched_single_patient = formattedPatient;
 
         return {
             success: true,
@@ -625,7 +645,9 @@ exports.fetchSinglePatient=async function (inputData) {
             patient: formattedPatient
         };
     } catch (error) {
-        console.error("❌ Error fetching patient:", error);
+        // console.error("❌ Error fetching patient:", error);
+        logData.successfully_fetched_single_patient = false;
+        logData.fetch_single_patient_error = error.message;
         return {
             success: false,
             message: "Failed to fetch patient",
