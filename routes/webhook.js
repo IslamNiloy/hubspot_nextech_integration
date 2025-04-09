@@ -14,6 +14,7 @@ router.post('/', async (req, res) => {
     console.log("Received payload:", payload);
 
     try {
+        console.log(payload.subscriptionType,payload.sourceId,payload.sourceId)
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information
             const inputData = await getContactInformation(payload.objectId);
@@ -125,6 +126,7 @@ router.post('/', async (req, res) => {
             res.status(200).json({ message: 'Meeting update handled successfully' });
 
         } else {
+            console.log(`Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}`);
             res.status(200).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
         }
 
