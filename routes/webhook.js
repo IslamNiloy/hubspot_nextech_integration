@@ -8,10 +8,9 @@ const {logToFile,logData} = require('../controllers/utils');
 // Define the webhook handler
 router.post('/', async (req, res) => {
     const payload = req.body;
-
+    console.log(req)
     const startTime = new Date().toISOString();  // Capture the start time
     logData.start_time= startTime,
-
     logData.received_payload = payload; 
 
     try {
