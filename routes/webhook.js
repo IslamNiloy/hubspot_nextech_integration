@@ -11,17 +11,15 @@ router.post('/', async (req, res) => {
     const startTime = new Date().toISOString();  // Capture the start time
     logData.start_time= startTime,
     logData.received_payload = payload; 
-    console.log("Received payload:", payload[0]);
+   
 
     try {
-        console.log("Received payload:", payload);
-        console.log(payload.subscriptionType,payload.sourceId,payload.sourceId)
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information
             const inputData = await getContactInformation(payload.objectId);
-            console.log("here i'm");
+ 
             logData.input_data = inputData; // Log the input data
-            console.log("im here now", logData)
+
             // The condition logic for contact.propertyChange
             if (
                 !inputData.firstname.includes("Name") &&          // First Name does not contain "Name"
@@ -128,7 +126,9 @@ router.post('/', async (req, res) => {
 
         } else {
             console.log(`Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}`);
-            res.status(200).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
+            logData.condition_not_matched = true; // Log the condition not matched
+            
+            res.status(205).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
         }
 
     
