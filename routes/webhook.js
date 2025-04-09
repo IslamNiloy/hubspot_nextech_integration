@@ -14,6 +14,7 @@ router.post('/', async (req, res) => {
     console.log("Received payload:", payload);
 
     try {
+        console.log("Received payload:", payload);
         console.log(payload.subscriptionType,payload.sourceId,payload.sourceId)
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information
