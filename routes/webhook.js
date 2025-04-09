@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
             // Get the contact information
             const inputData = await getContactInformation(payload.objectId);
-            // console.log(inputData);
+            console.log("here i'm");
             logData.input_data = inputData; // Log the input data
             
             // The condition logic for contact.propertyChange
