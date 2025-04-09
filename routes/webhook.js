@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
             const inputData = await getContactInformation(payload.objectId);
             console.log("here i'm");
             logData.input_data = inputData; // Log the input data
-            
+            console.log("im here now", logData)
             // The condition logic for contact.propertyChange
             if (
                 !inputData.firstname.includes("Name") &&          // First Name does not contain "Name"
