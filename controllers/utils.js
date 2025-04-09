@@ -15,9 +15,16 @@ const path = require('path');
 
 exports.logToFile = (logData) => {
     const currentDate = new Date();
+    let logFileName
     const logDirectory = path.join(__dirname, 'logs');  // Create logs folder if not exist
-    const logFileName = `${currentDate.toISOString().split('T')[0]}.json`;  // Log file name by date (YYYY-MM-DD.json)
-    const logFilePath = path.join(logDirectory, logFileName);
+    if (logData.process==="Webhook") {
+        logFileName = `${currentDate.toISOString().split('T')[0]}_webhook.json`;  // Log file name by date (YYYY-MM-DD.json)
+    }else if(logData.process==="CronJob"){
+        logFileName = `${currentDate.toISOString().split('T')[0]}_cronjob.json`;  // Log file name by date (YYYY-MM-DD.json)
+    }else{
+         logFileName = `${currentDate.toISOString().split('T')[0]}.json`;  // Log file name by date (YYYY-MM-DD.json)  
+    }
+        const logFilePath = path.join(logDirectory, logFileName);
 
     // Create logs directory if it doesn't exist
     if (!fs.existsSync(logDirectory)) {
@@ -45,9 +52,4 @@ exports.logToFile = (logData) => {
 
 
 
-exports.logData = {
-    process: "Webhook",
-    status: "start",
-    
-    message: "Webhook received and processing started.",
-};
+exports.logData = {};

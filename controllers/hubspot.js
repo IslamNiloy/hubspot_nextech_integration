@@ -125,6 +125,118 @@ exports.getContactInformation = async function (contactId) {
     return contactProperties;
 };
 
+exports.getHubSpotContactByPatientId = async function(patientId, email) {
+    console.log(`🔍 Searching HubSpot contact for patient ID: ${patientId}, ${email}`);
+    const hubspotSearchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/search`;
+
+    // Build the filters based on available information
+    let filters = [];
+
+    // If patientId is not null, search by patientId
+    if (patientId) {
+        filters.push({
+            propertyName: "patient_id",
+            operator: "EQ",
+            value: patientId
+        });
+    }
+
+    // If email is not null, search by email
+    if (email) {
+        filters.push({
+            propertyName: "email",
+            operator: "EQ",
+            value: email
+        });
+    }
+
+    // If neither patientId nor email is provided, return "not match"
+    if (!patientId && !email) {
+        console.log("❌ No patientId or email provided, returning 'not match'");
+        return { message: "not match" };
+    }
+
+    const body = {
+        filterGroups: [{
+            filters: filters
+        }],
+        properties: ["id", "email"]
+    };
+
+    try {
+        const response = await fetch(hubspotSearchUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        console.log(`🔍 HubSpot search response: ${JSON.stringify(data)}`);
+
+        if (data.total > 0) {
+            return data.results[0];
+        } else {
+            // If no result found with the first search, try with the alternate property
+            if (patientId) {
+                console.log("🔍 No result found for patientId, trying with email...");
+                return await searchWithEmail(email);
+            } else if (email) {
+                console.log("🔍 No result found for email, returning 'not match'");
+                return { message: "not match" };
+            }
+        }
+    } catch (error) {
+        console.error("❌ Error searching HubSpot contact:", error);
+        return { message: "not match" };
+    }
+}
+
+// Helper function to search with email if the initial patientId search fails
+async function searchWithEmail(email) {
+    if (!email) {
+        console.log("❌ No email provided for search, returning 'not match'");
+        return { message: "not match" };
+    }
+
+    const hubspotSearchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/search`;
+
+    const body = {
+        filterGroups: [{
+            filters: [{
+                propertyName: "email",
+                operator: "EQ",
+                value: email
+            }]
+        }],
+        properties: ["id", "email"]
+    };
+
+    try {
+        const response = await fetch(hubspotSearchUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        console.log(`🔍 HubSpot search by email response: ${JSON.stringify(data)}`);
+
+        if (data.total > 0) {
+            return data.results[0];
+        } else {
+            return { message: "not match" };
+        }
+    } catch (error) {
+        console.error("❌ Error searching HubSpot contact by email:", error);
+        return { message: "not match" };
+    }
+}
 
 
 exports.updateHubSpotContact = async function (contactId, properties) {
@@ -154,3 +266,102 @@ exports.updateHubSpotContact = async function (contactId, properties) {
 
 
 
+// exports.getHubSpotContactByPatientId= async function(patientId,email,official_id) {
+//     console.log(`🔍 Searching HubSpot contact for patient ID: ${patientId}, ${email}, ${official_id}`);
+//     const hubspotSearchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/search`;
+//     const body = {
+//         filterGroups: [{
+//             // filters: [{
+//             //     propertyName: "patient_id",
+//             //     operator: "EQ",
+//             //     value: patientId
+//             // }],
+//             filters: [{
+//                 propertyName: "email",
+//                 operator: "EQ",
+//                 value: email
+//             }],
+//             // filters: [{
+//             //     propertyName: "patient_official_id",
+//             //     operator: "EQ",
+//             //     value: official_id
+//             // }]
+//         }],
+//         properties: ["id", "email"]
+//     };
+
+//     try {
+//         const response = await fetch(hubspotSearchUrl, {
+//             method: "POST",
+//             headers: {
+//                 "Authorization": `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(body)
+//         });
+
+//         const data = await response.json();
+//         console.log(`🔍 HubSpot search response: ${JSON.stringify(data)}`);
+//         return data.total > 0 ? data.results[0] : null;
+//     } catch (error) {
+//         console.error("❌ Error searching HubSpot contact:", error);
+//         return null;
+//     }
+// }
+
+
+
+
+// Function to update an existing HubSpot contact
+exports.updateHubSpotContactNextech=async function(contactId, patient) {
+    const hubspotUpdateUrl = `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`;
+    const body = {
+        properties: patient
+    };
+
+    try {
+        const response = await fetch(hubspotUpdateUrl, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update HubSpot contact: ${await response.text()}`);
+        }
+
+        console.log(`✅ Successfully updated HubSpot contact ID: ${contactId}`);
+    } catch (error) {
+        console.error("❌ Error updating HubSpot contact:", error);
+    }
+}
+
+// Function to create a new HubSpot contact
+exports.createHubSpotContact=async function(patient) {
+    const hubspotCreateUrl = `https://api.hubapi.com/crm/v3/objects/contacts`;
+    const body = {
+        properties: patient
+    };
+
+    try {
+        const response = await fetch(hubspotCreateUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to create HubSpot contact: ${await response.text()}`);
+        }
+
+        console.log(`✅ Successfully created new HubSpot contact`);
+    } catch (error) {
+        console.error("❌ Error creating HubSpot contact:", error);
+    }
+}

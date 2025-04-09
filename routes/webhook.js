@@ -9,12 +9,16 @@ const {logToFile,logData} = require('../controllers/utils');
 router.post('/', async (req, res) => {
     const payload = req.body[0];
     const startTime = new Date().toISOString();  // Capture the start time
+    logData.process= "Webhook",
+    logData.status= "start",
+    logData.message= "Webhook received and processing started.",
     logData.start_time= startTime,
     logData.received_payload = payload; 
-   
+    logData.integration_type = `Hubspot to Nextech for ${payload.subscriptionType} and sourceId: ${payload.sourceId}`; // Log the integration type
 
     try {
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
+            
             // Get the contact information
             const inputData = await getContactInformation(payload.objectId);
  
@@ -127,7 +131,7 @@ router.post('/', async (req, res) => {
         } else {
             console.log(`Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}`);
             logData.condition_not_matched = true; // Log the condition not matched
-            
+
             res.status(205).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
         }
 

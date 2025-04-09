@@ -2,6 +2,7 @@ require('dotenv').config();
 // Create Patient in Nextech
 const { getNextechToken } = require("./token");
 const {logData} = require("./utils");
+const NEXTECH_API_URL = "https://select.nextech-api.com/api/Patient";
 
 
 exports.createNextechPatient= async function(inputData) {
@@ -481,7 +482,7 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
 
 
 // Function to format patient data
-function formatPatientData(patient) {
+exports.formatPatientData=function(patient) {
     const fullName = patient.name?.find(n => n.use === "official")?.text || "";
     const nameParts = fullName.split(" ").filter(Boolean);
     const lastName = nameParts.length > 1 ? nameParts.pop() : ""; // Last part is last name
@@ -584,7 +585,7 @@ function formatPatientData(patient) {
         // Address
         // addressType: patient.address?.[0]?.type || " ",
         // addressUse: patient.address?.[0]?.use || " ",
-        address: patient.address?.[0]?.line?.join(", ") || "",
+        address: patient.address?.[0]?.line?.[0] || "",
         city: patient.address?.[0]?.city || "",
         state: patient.address?.[0]?.state || "",
         zip: patient.address?.[0]?.postalCode || "",
@@ -655,4 +656,59 @@ exports.fetchSinglePatient=async function (inputData) {
         };
     }
 }
+
+
+exports.fetchUpdatedPatients=async function (lastSyncTime, lastOffset, remainingLimit) {
+    console.log(`🕒 Last Sync Time: ${lastSyncTime}, 📌 Last Offset: ${lastOffset}, 🔄 Remaining API Calls: ${remainingLimit}`);
+    
+    const token = await getNextechToken();
+    let nextUrl = `${NEXTECH_API_URL}?_lastUpdated=gt${lastSyncTime}&_count=10&_getpagesoffset=${lastOffset}`;
+    let allPatients = [];
+
+    try {
+        while (nextUrl && remainingLimit > 0) {
+            const response = await fetch(nextUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "nx-practice-id": "2441c8d4-dbf0-4517-a5e5-fe84c0ff4c50"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error fetching patients: ${await response.text()}`);
+            }
+
+            const data = await response.json();
+            if (data.entry) {
+                allPatients.push(...data.entry.map(entry => entry.resource));
+            }
+
+            console.log(`📄 Page fetched: ${allPatients.length} patients so far.`);
+
+            // Get next page link
+            const nextPageLink = data.link?.find(link => link.relation === 'next');
+            if (nextPageLink) {
+                nextUrl = nextPageLink.url;
+                lastOffset += 10;
+            } else {
+                nextUrl = null;
+            }
+
+            // Reduce API call limit
+            remainingLimit -= 1;
+
+            if (remainingLimit <= 0) {
+                console.log("⚠️ Reached daily request limit for Nextech. Stopping polling.");
+                break;
+            }
+        }
+
+    } catch (error) {
+        console.error("❌ Error fetching patients from Nextech:", error);
+        return { patients: [], lastSyncTime, lastOffset, remainingLimit };
+    }
+
+    return { patients: allPatients, lastSyncTime: new Date().toISOString(), lastOffset, remainingLimit };
+}
+
 
