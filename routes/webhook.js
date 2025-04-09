@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
     const startTime = new Date().toISOString();  // Capture the start time
     logData.start_time= startTime,
     logData.received_payload = payload; 
+    console.log("Received payload:", payload);
 
     try {
         if (payload.subscriptionType === 'contact.propertyChange' && !(payload.sourceId === '8311262' || payload.sourceId === '25200')) {
