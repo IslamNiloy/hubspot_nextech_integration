@@ -1,0 +1,1384 @@
+[
+  {
+    "eeventId": 4158595930,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T12:37:02.758Z",
+    "received_payload": {
+      "eventId": 4158595930,
+      "subscriptionId": 3369721,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744194261473,
+      "subscriptionType": "object.creation",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "phone",
+      "propertyValue": "1786848457",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for object.creation and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "000",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "000",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-09T11:42:53.137+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "000"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1229",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T12:37:08.924Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:23:33.557Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "address",
+      "propertyValue": "Bashundara R/a ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundara ",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "address": "Bashundara R/a "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-09T11:42:53.137+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "000"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1229",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:23:40.316Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:27:52.837Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "address",
+      "propertyValue": "Bashundara R/a ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundara ",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "address": "Bashundara R/a "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-10T13:24:22.04+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "Bashundhara"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1229",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:27:58.773Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:28:34.821Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "address",
+      "propertyValue": "Bashundara R/a ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundara ",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "address": "Bashundara R/a "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-10T13:24:22.04+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "Bashundhara"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1229",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:28:40.739Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:33:11.851Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "zip",
+      "propertyValue": "1111 ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundhara",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "zip": "1111 "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-10T13:33:17.377+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "Bashundhara"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1111",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:33:18.213Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:34:02.906Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "address",
+      "propertyValue": "Bashundara R/a ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundhara",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "address": "Bashundara R/a "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-10T13:33:17.377+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "Bashundhara"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1111",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:34:08.806Z"
+  },
+  {
+    "eeventId": 2620951747,
+    "process": "Webhook",
+    "status": "start",
+    "message": "Webhook received and processing started.",
+    "start_time": "2025-04-10T13:38:08.936Z",
+    "received_payload": {
+      "eventId": 2620951747,
+      "subscriptionId": 3369663,
+      "portalId": 48247497,
+      "appId": 8311262,
+      "occurredAt": 1744290453779,
+      "subscriptionType": "contact.propertyChange",
+      "attemptNumber": 0,
+      "objectId": 102818572897,
+      "propertyName": "address",
+      "propertyValue": "Bashundara R/a ",
+      "changeSource": "CRM_UI",
+      "sourceId": "userId:64765677"
+    },
+    "integration_type": "Hubspot to Nextech for contact.propertyChange and sourceId: userId:64765677",
+    "getContactInformation_function_start": true,
+    "input_data": {
+      "patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "patient_status": "patient",
+      "exclude_from_mailings": "false",
+      "prospects_referred": "0",
+      "patients_referred": "0",
+      "referral_source": "",
+      "referring_physician": "referring-physician/679",
+      "primary_care_physician": "",
+      "referring_patient": "",
+      "affiliate_physician": "",
+      "affiliate_physician_type": "",
+      "patient_employment_status": "",
+      "nextech_patient_type": "patient-type/7",
+      "patient_note": "She was a walk in - no show",
+      "ethnicity": "",
+      "patient_id": "40100",
+      "firstname": "Niloy",
+      "lastname": "Islam",
+      "patient_gender": "unknown",
+      "dob": "1999-03-03T00:00:00Z",
+      "patient_marital_status": "",
+      "nextech_preferred_contact": "",
+      "phone": "1786848457",
+      "mobilephone": "1786848457",
+      "fax": "",
+      "email": "niloy@hubxpert.com",
+      "address": "Bashundhara",
+      "city": "",
+      "state": "",
+      "zip": "1229",
+      "country": "USA",
+      "emergency_contact_name": "",
+      "emergency_contact_relation": "",
+      "emergency_contact_home_phone": "",
+      "emergency_contact_email": "",
+      "jobtitle": "",
+      "company": "",
+      "general_practitioner": "",
+      "patient_communication": ""
+    },
+    "updateNextechPatient_function_start": true,
+    "updating_nextech_patient_official_id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+    "updating_nextech_patient_id": "40100",
+    "updating_nextech_patient_data": {
+      "address": "Bashundara R/a "
+    },
+    "nextech_patient_update_response": {
+      "resourceType": "Patient",
+      "id": "bcd1cd36-45a3-462f-b05e-7c7fb914998e",
+      "meta": {
+        "lastUpdated": "2025-04-10T13:38:19.16+00:00"
+      },
+      "extension": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/HumanName",
+              "valueHumanName": {
+                "use": "official",
+                "text": "Leva, Ginny",
+                "family": "Leva",
+                "given": [
+                  "Ginny",
+                  ""
+                ],
+                "suffix": [
+                  ""
+                ]
+              }
+            }
+          ],
+          "url": "https://select.nextech-api.com/api/structuredefinition/referring-physician",
+          "valueReference": {
+            "reference": "referring-physician/679",
+            "display": "Leva, Ginny"
+          }
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-note",
+          "valueString": "She was a walk in - no show"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patients-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/prospects-referred",
+          "valueInteger": 0
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/exclude-from-mailings",
+          "valueBoolean": false
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-status",
+          "valueString": "Patient"
+        },
+        {
+          "url": "https://select.nextech-api.com/api/structuredefinition/patient-type",
+          "valueReference": {
+            "reference": "patient-type/7",
+            "display": "Great Patient"
+          }
+        }
+      ],
+      "identifier": [
+        {
+          "use": "official",
+          "value": "bcd1cd36-45a3-462f-b05e-7c7fb914998e"
+        },
+        {
+          "use": "usual",
+          "value": "40100"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/us-ssn",
+          "value": ""
+        }
+      ],
+      "name": [
+        {
+          "use": "official",
+          "text": "Niloy Islam",
+          "family": "Islam",
+          "given": [
+            "Niloy",
+            ""
+          ],
+          "suffix": [
+            ""
+          ]
+        }
+      ],
+      "telecom": [
+        {
+          "system": "email",
+          "value": "niloy@hubxpert.com"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "home"
+        },
+        {
+          "system": "phone",
+          "value": "1786848457",
+          "use": "mobile"
+        }
+      ],
+      "gender": "unknown",
+      "birthDate": "1999-03-03",
+      "address": [
+        {
+          "use": "home",
+          "type": "both",
+          "line": [
+            "Bashundara R/a"
+          ],
+          "city": "",
+          "state": "",
+          "postalCode": "1111",
+          "country": "USA"
+        }
+      ]
+    },
+    "successfully_updated_patient_in_nextech": true,
+    "update_nextech_patient_message": "Successfully updated patient in Nextech",
+    "end_time": "2025-04-10T13:38:19.966Z"
+  }
+]
