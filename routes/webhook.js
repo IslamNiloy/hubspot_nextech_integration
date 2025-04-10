@@ -33,9 +33,9 @@ router.post('/', async (req, res) => {
                 inputData.firstname &&                         
                 inputData.phone  &&                        
                 inputData.zip &&
-                inputData.dob                          
-                // inputData.patient_official_id ||                   
-                // inputData.patient_id                              
+                inputData.dob   ||                
+                inputData.patient_official_id ||                    
+                inputData.patient_id                              
             ) {
                 if (inputData.patient_id || inputData.patient_official_id) {
                     const updateData = {
@@ -97,9 +97,9 @@ router.post('/', async (req, res) => {
                 inputData.firstname &&                           
                 inputData.phone &&                         
                 inputData.zip &&
-                inputData.dob                        
-                // inputData.patient_official_id ||                    
-                // inputData.patient_id                                 
+                inputData.dob  ||                
+                inputData.patient_official_id ||                    
+                inputData.patient_id                                 
             ) {
                 if (inputData.patient_id || inputData.patient_official_id) {
                     const {message} = await updateNextechPatient(inputData, inputData, logData);
