@@ -120,6 +120,7 @@ app.get("/", (req, res) => {
         </html>
     `);
 });
+app.use("/webhook", webhook);
 app.all('*', (req, res) => {
     res.status(404).send(`
         <!DOCTYPE html>
@@ -163,7 +164,7 @@ app.all('*', (req, res) => {
 });
     
 
-app.use("/webhook", webhook);
+
 
 // Run every 30 minutes
 cron.schedule('*/30 * * * *', async () => {
