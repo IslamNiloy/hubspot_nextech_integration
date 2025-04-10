@@ -2,8 +2,6 @@
 // Check Repeated Trigger
 require('dotenv').config();
 
-const {logData} = require('../controllers/utils');
-
 exports.checkHubSpotUpdate= async function(contactId) {
     try {
         const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
@@ -53,7 +51,7 @@ exports.checkHubSpotUpdate= async function(contactId) {
     }
 }
 
-exports.getContactInformation = async function (contactId) {
+exports.getContactInformation = async function (contactId,logData) {
     logData.getContactInformation_function_start = true;
     const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 
@@ -239,7 +237,7 @@ async function searchWithEmail(email) {
 }
 
 
-exports.updateHubSpotContact = async function (contactId, properties) {
+exports.updateHubSpotContact = async function (contactId, properties,logData) {
     logData.updateHubSpotContact_function_start = true;
     const accessToken = process.env.HUBSPOT_ACCESS_TOKEN; // Replace with your actual HubSpot access token
 

@@ -1,12 +1,15 @@
 require("dotenv").config();
+const cron = require('node-cron');
 const express = require("express");
-
+const morgan = require('morgan');
 const webhook = require("./routes/webhook");
+const { getNextechPatinetAndUpdateInHubspot } = require('./integration/nextechToHubspot');
 const nextechRoutes = require("./routes/nextechRoutes");
 const hubspotRoutes = require("./routes/hubspotRoutes");
 
 const app = express();
 app.use(express.json());
+app.use(morgan('dev')); // Use morgan for logging HTTP requests
 app.get("/", (req, res) => {
     res.send(`
         <!DOCTYPE html>
@@ -122,6 +125,16 @@ app.get("/", (req, res) => {
 
 app.use("/webhook", webhook);
 
+// Run every 30 minutes
+cron.schedule('*/30 * * * *', async () => {
+    console.log('🕒 Running scheduled task: getNextechPatinetAndUpdateInHubspot');
+    try {
+        await getNextechPatinetAndUpdateInHubspot();
+        console.log('✅ Task completed');
+    } catch (err) {
+        console.error('❌ Error in scheduled task:', err.message);
+    }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

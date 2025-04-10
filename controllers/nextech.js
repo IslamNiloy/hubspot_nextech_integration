@@ -1,11 +1,10 @@
 require('dotenv').config();
 // Create Patient in Nextech
 const { getNextechToken } = require("./token");
-const {logData} = require("./utils");
 const NEXTECH_API_URL = "https://select.nextech-api.com/api/Patient";
 
 
-exports.createNextechPatient= async function(inputData) {
+exports.createNextechPatient= async function(inputData,logData) {
     try {
         // Fetch Nextech token
         logData.createNextechPatient_function_start = true;
@@ -249,7 +248,7 @@ exports.createNextechPatient= async function(inputData) {
 
         return { success: true, message: "Successfully created patient in Nextech", data: data };
     } catch (error) {
-        // console.error("❌ Error creating patient in Nextech:", error.message);
+        console.error("❌ Error creating patient in Nextech:", error.message);
         logData.successfully_created_patient_in_nextech = false;
         logData.creating_nextech_patient_response = error.message;
         
@@ -262,16 +261,17 @@ exports.createNextechPatient= async function(inputData) {
 
 
 // Update Nextech Patient
-exports.updateNextechPatient= async function (patientOfficialId, updateData) {
+exports.updateNextechPatient= async function (inputData, updateData, logData) {
     try {
         logData.updateNextechPatient_function_start =true
-        logData.updating_nextech_patient_official_id = patientOfficialId;
+        logData.updating_nextech_patient_official_id = inputData.patient_official_id;
+        logData.updating_nextech_patient_id = inputData.patient_id;
         logData.updating_nextech_patient_data = updateData;
         
         const token = await getNextechToken();
 
         // Ensure patient ID is provided
-       if (!patientOfficialId && !updateData.patient_id) {
+       if (!inputData.patient_official_id && !inputData.patient_id) {
                 throw new Error("Missing required fields: patientOfficialId and inputData.patient_id.");
             }
 
@@ -333,11 +333,11 @@ exports.updateNextechPatient= async function (patientOfficialId, updateData) {
             identifier: [
                 {
                     use: "official",
-                    value: patientOfficialId
+                    value: inputData.patient_official_id
                 },
                 {
                      use: "usual",
-                     value : updateData.patient_id
+                     value : inputData.patient_id
                 }
             ],
 
@@ -613,7 +613,7 @@ exports.formatPatientData=function(patient) {
 
 
 // **Main function for Zapier**
-exports.fetchSinglePatient=async function (inputData) {
+exports.fetchSinglePatient=async function (inputData,logData) {
     logData.fetchSinglePatient_function_start = true;
     if (!inputData.email) {
         throw new Error("Missing required field: email.");
