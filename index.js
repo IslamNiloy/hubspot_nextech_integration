@@ -120,7 +120,47 @@ app.get("/", (req, res) => {
         </html>
     `);
 });
-
+app.all('*', (req, res) => {
+    res.status(404).send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Page Not Found</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    text-align: center;
+                    background-color: #f9f9f9;
+                    color: #333;
+                    padding: 50px;
+                }
+                h1 {
+                    font-size: 3em;
+                    color: #e74c3c;
+                }
+                p {
+                    font-size: 1.5em;
+                }
+                .message {
+                    background-color: #f2f2f2;
+                    padding: 20px;
+                    border-radius: 10px;
+                    border: 1px solid #e74c3c;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Oops! Page Not Found.</h1>
+            <p>The page you're looking for doesn't exist.</p>
+            <div class="message">
+                <p>We're sorry, but the page you requested is unavailable or has been moved.</p>
+            </div>
+        </body>
+        </html>
+    `);
+});
     
 
 app.use("/webhook", webhook);

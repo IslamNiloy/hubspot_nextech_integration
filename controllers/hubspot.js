@@ -130,7 +130,7 @@ exports.getHubSpotContactByPatientId = async function(patientId, email) {
     // Build the filters based on available information
     let filters = [];
 
-    // If patientId is not null, search by patientId
+    // If patientId is provided, search by patientId
     if (patientId) {
         filters.push({
             propertyName: "patient_id",
@@ -139,7 +139,7 @@ exports.getHubSpotContactByPatientId = async function(patientId, email) {
         });
     }
 
-    // If email is not null, search by email
+    // If email is provided, search by email
     if (email) {
         filters.push({
             propertyName: "email",
@@ -151,7 +151,7 @@ exports.getHubSpotContactByPatientId = async function(patientId, email) {
     // If neither patientId nor email is provided, return "not match"
     if (!patientId && !email) {
         console.log("❌ No patientId or email provided, returning 'not match'");
-        return { message: "not match" };
+        return null;
     }
 
     const body = {
@@ -175,20 +175,19 @@ exports.getHubSpotContactByPatientId = async function(patientId, email) {
         console.log(`🔍 HubSpot search response: ${JSON.stringify(data)}`);
 
         if (data.total > 0) {
-            return data.results[0];
+            return data.results[0];  // If contact is found, return the contact
         } else {
             // If no result found with the first search, try with the alternate property
-            if (patientId) {
+            if (patientId && !email) {
                 console.log("🔍 No result found for patientId, trying with email...");
-                return await searchWithEmail(email);
-            } else if (email) {
-                console.log("🔍 No result found for email, returning 'not match'");
-                return { message: "not match" };
+                return await searchWithEmail(email);  // Retry search with email if only patientId was used
+            } else {
+                return null;  // No result found for either
             }
         }
     } catch (error) {
         console.error("❌ Error searching HubSpot contact:", error);
-        return { message: "not match" };
+        return null;  // Return null if there's an error
     }
 }
 
@@ -196,7 +195,7 @@ exports.getHubSpotContactByPatientId = async function(patientId, email) {
 async function searchWithEmail(email) {
     if (!email) {
         console.log("❌ No email provided for search, returning 'not match'");
-        return { message: "not match" };
+        return null;
     }
 
     const hubspotSearchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/search`;
@@ -226,15 +225,16 @@ async function searchWithEmail(email) {
         console.log(`🔍 HubSpot search by email response: ${JSON.stringify(data)}`);
 
         if (data.total > 0) {
-            return data.results[0];
+            return data.results[0];  // If contact is found by email, return the contact
         } else {
-            return { message: "not match" };
+            return null;  // Return null if no contact is found
         }
     } catch (error) {
         console.error("❌ Error searching HubSpot contact by email:", error);
-        return { message: "not match" };
+        return null;  // Return null in case of error
     }
 }
+
 
 
 exports.updateHubSpotContact = async function (contactId, properties,logData) {

@@ -64,7 +64,7 @@ exports.getNextechPatinetAndUpdateInHubspot = async function() {
 async function syncPatientsToHubSpot(patients) {
     for (const patient of patients) {
         const hubspotContact = await getHubSpotContactByPatientId(patient.patient_id,patient.email,patient.patient_official_id);
-
+        console.log(hubspotContact)
         if (hubspotContact) {
             console.log(`🔄 Updating existing HubSpot contact for patient ID: ${patient.patient_id}`);
             await updateHubSpotContactNextech(hubspotContact.id, patient);
