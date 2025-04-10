@@ -352,7 +352,7 @@ exports.updateNextechPatient= async function (inputData, updateData, logData) {
             ].filter(Boolean),
 
             // **Address**
-            address: updateData.zip ? [{
+            address: updateData.zip || inputData.zip ? [{
                 use: "home",
                 type: "both",
                 line: [updateData.address],
@@ -447,7 +447,7 @@ exports.updateNextechPatient= async function (inputData, updateData, logData) {
             ].filter(Boolean)
         };
 
-        // console.log("🚀 Updating Nextech Patient Data:", JSON.stringify(patientUpdateData, null, 2));
+        console.log("🚀 Updating Nextech Patient Data:", JSON.stringify(patientUpdateData, null, 2));
 
         // **Try sending as a POST request instead of PUT**
         const response = await fetch("https://select.nextech-api.com/api/Patient", {

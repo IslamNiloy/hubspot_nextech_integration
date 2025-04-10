@@ -10,7 +10,8 @@ router.post('/', async (req, res) => {
     const payload = req.body[0];
     const startTime = new Date().toISOString();  // Capture the start time
     let logData = {};
-    logData.eeventId= payload.eventId,
+    console.log("Webhook received:", payload.eventId);
+    logData.eventId= payload.eventId,
     logData.process= "Webhook",
     logData.status= "start",
     logData.message= "Webhook received and processing started.",
@@ -145,7 +146,7 @@ router.post('/', async (req, res) => {
             console.log(`Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}`);
             logData.condition_not_matched = 'Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}'; // Log the condition not matched
 
-            res.status(205).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
+            res.status(200).json({ message: `Event type not matched => SourceId: ${payload.sourceId} SubscriptionType: ${payload.subscriptionType}` });
         }
 
     

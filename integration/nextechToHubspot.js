@@ -17,7 +17,7 @@ exports.getNextechPatinetAndUpdateInHubspot = async function() {
         
         
         // Read last sync details from input (Zapier stores it in previous steps)
-        let lastSyncTime = new Date(new Date().getTime() - 20 * 60 * 60 * 1000).toISOString() || "2024-01-01T00:00:00Z"; 
+        let lastSyncTime = new Date(new Date().getTime() - .5 * 60 * 60 * 1000).toISOString() || "2024-01-01T00:00:00Z"; 
         let lastOffset = 0;
         let remainingLimit = MAX_DAILY_LIMIT;
 
