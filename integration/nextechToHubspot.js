@@ -1,6 +1,6 @@
 const{formatPatientData, fetchUpdatedPatients} = require("../controllers/nextech");
 const MAX_DAILY_LIMIT = 1000;
-const {logToFile} = require("../controllers/utils");
+const {logToFile, deduplicatePatientsByLatestUpdate} = require("../controllers/utils");
 const {getHubSpotContactByPatientId, createHubSpotContact, updateHubSpotContactNextech} = require("../controllers/hubspot");
 
 
@@ -31,10 +31,13 @@ exports.getNextechPatinetAndUpdateInHubspot = async function() {
         }
         // Format patient data
         logData.count_of_patients = patients.length;
-        const formattedPatients = patients.map(formatPatientData);
+        const formattedPatientsWithDuplicate = patients.map(formatPatientData);
+        const formattedPatients = deduplicatePatientsByLatestUpdate(formattedPatientsWithDuplicate);
         logData.formatted_patients = formattedPatients;
         logData.sucessfully_fetched_patients = true;
         console.log("📋 Formatted Patients:", formattedPatients);
+        console.log("✅ Successfully fetched and formatted patients with duplicate :", formattedPatientsWithDuplicate.length);
+        console.log("✅ Successfully fetched and formatted patients without duplicate:", formattedPatients.length);
         console.log("✅ Successfully fetched and formatted patients.");
 
         await syncPatientsToHubSpot(formattedPatients);

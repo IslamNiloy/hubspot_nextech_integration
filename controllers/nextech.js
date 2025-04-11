@@ -522,7 +522,7 @@ exports.formatPatientData=function(patient) {
         
     return {
         patient_official_id: patient.id,
-        // lastUpdated: patient.meta?.lastUpdated || null,
+        lastUpdated: patient.meta?.lastUpdated,
         
         // Patient Status
         patient_status: allowedStatuses[patient.extension?.find(ext => ext.url.includes("patient-status"))?.valueString] || "patient",

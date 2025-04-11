@@ -53,3 +53,20 @@ exports.logToFile = (logData) => {
 
 
 exports.logData = {};
+
+
+exports.deduplicatePatientsByLatestUpdate= function(patients) {
+    const uniquePatients = Object.values(
+      patients.reduce((acc, curr) => {
+        const existing = acc[curr.patient_id];
+  
+        if (!existing || new Date(curr.lastUpdated) > new Date(existing.lastUpdated)) {
+          acc[curr.patient_id] = curr;
+        }
+  
+        return acc;
+      }, {})
+    );
+  
+    return uniquePatients;
+  }
