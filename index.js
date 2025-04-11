@@ -40,14 +40,17 @@ app.get("/", (req, res) => {
                     display: flex;
                     justify-content: center;
                     gap: 50px;
+                    flex-wrap: wrap; /* Allows clocks to stack on smaller screens */
                 }
                 .clock {
                     font-size: 1.5em;
-                    padding: 10px;
+                    padding: 15px;
                     background-color: #fff;
                     border: 2px solid #2c3e50;
                     border-radius: 10px;
-                    width: 200px;
+                    width: 250px;
+                    box-sizing: border-box;
+                    overflow-wrap: break-word; /* Prevents overflow of content */
                 }
                 .clock h3 {
                     margin-bottom: 10px;
@@ -57,6 +60,7 @@ app.get("/", (req, res) => {
                     font-size: 2em;
                     font-weight: bold;
                     color: #e74c3c;
+                    word-wrap: break-word; /* Breaks the time into the next line if necessary */
                 }
                 .footer {
                     margin-top: 50px;
@@ -75,7 +79,20 @@ app.get("/", (req, res) => {
                     border-radius: 10px;
                     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
                 }
+
+                /* Responsiveness for smaller screens */
+                @media (max-width: 768px) {
+                    #clocks {
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+                    .clock {
+                        width: 100%;
+                        max-width: 300px; /* Adjusts width to fit smaller screens */
+                    }
+                }
             </style>
+
         </head>
         <body>
             <h1>This is an Integration app for HubSpot with Nextech</h1>
@@ -93,9 +110,12 @@ app.get("/", (req, res) => {
             </div>
 
             <div class="gif-container">
-                       <div class="tenor-gif-embed" data-postid="13354615" data-share-method="host" data-aspect-ratio="1.50235" data-width="30%"><a href="https://tenor.com/view/cbb2-cbbus2-bbceleb-bbceleb2-tamar-braxton-gif-13354615">Cbb2 Cbbus2 GIF</a>from <a href="https://tenor.com/search/cbb2-gifs">Cbb2 GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                <div class="tenor-gif-embed" data-postid="13354615" data-share-method="host" data-aspect-ratio="1.50235" data-width="30%">
+                    <a href="https://tenor.com/view/cbb2-cbbus2-bbceleb-bbceleb2-tamar-braxton-gif-13354615">Cbb2 Cbbus2 GIF</a>from 
+                    <a href="https://tenor.com/search/cbb2-gifs">Cbb2 GIFs</a>
+                </div> 
+                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
             </div>
-
 
             <script>
                 // Function to update Bangladesh Time
@@ -117,6 +137,7 @@ app.get("/", (req, res) => {
                 }, 1000);
             </script>
         </body>
+
         </html>
     `);
 });

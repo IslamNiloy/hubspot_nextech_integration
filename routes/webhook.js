@@ -63,7 +63,7 @@ router.post('/', async (req, res) => {
                             patient_id: patient.patient_id
                         }
                         const output =await updateHubSpotContact(payload.objectId, propertiesToUpdate.logData);
-                        logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
+                        // logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
                         res.status(200).json({ message: `${message} -- Updated patient in nextech because this patient already exist in Nextech and also updated the hubspot contact`});
 
                     }else { 
@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
                             patient_id: data.identifier.find(id => id.use === 'usual')?.value
                         }
                         const output =await updateHubSpotContact(payload.objectId, propertiesToUpdate,logData);
-                        logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
+                        // logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
                         res.status(200).json({ message: `${message} -- Create new patient in nextech because this contact doesnot exist in Nextech and also updated the hubspot contact`});
                     }
                     
@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
             ) {
                 if (inputData.patient_id || inputData.patient_official_id) {
                     const {message} = await updateNextechPatient(inputData, inputData, logData);
-                    logData.update_nextech_patient_message = message; // Log the message
+                    // logData.update_nextech_patient_message = message; // Log the message
                     res.status(200).json({ message: message });
 
                 } else {
@@ -116,7 +116,7 @@ router.post('/', async (req, res) => {
                             patient_id: patient.patient_id
                         }
                         const output= await updateHubSpotContact(payload.objectId, propertiesToUpdate. logData);
-                        logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
+                        // logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
                         res.status(200).json({ message: `${message} -- Updated patient in nextech because this patient already exist in Nextech and also updated the hubspot contact`});
                     }else { 
                         const propertiesToUpdate = {
@@ -124,7 +124,7 @@ router.post('/', async (req, res) => {
                             patient_id: data.identifier.find(id => id.use === 'usual')?.value
                         }
                         const output= await updateHubSpotContact(payload.objectId, propertiesToUpdate, logData);
-                        logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
+                        // logData.update_hubspot_contact = output; // Log the output of the updateHubSpotContact function
                         res.status(200).json({ message: `${message} -- Create new patient in nextech because this contact doesnot exist in Nextech and also updated the hubspot contact`});
 
                     }
